@@ -1,0 +1,38 @@
+{
+    "description": "Публичный REST API doslano: отправка заказных писем одним запросом, проверка статуса и трек-номеров (наш РПО + Почты России), баланс, колбеки на финальный статус письма.  **Авторизация** — API-ключ в заголовке `Authorization: Bearer dl_live_…`. Ключи и журнал активности — в ЛК, раздел «API». Ключ имеет набор прав (scopes) и (опционально) IP-allowlist.  **Оплата** — только с баланса аккаунта (предоплата). Пополнение — в ЛК.  **Колбеки** — необязательный `callback_url` указывается при отправке каждого письма; иначе используйте поллинг `GET /v1/letters/{id}`. Тело колбека подписывается HMAC-SHA256 секретом аккаунта (заголовок `X-Doslano-Signature`).  Это дополнительный интерфейс доступа к тем же услугам; использование регулируется действующей офертой личного кабинета doslano.",
+    "keywords": [
+        "openapitools",
+        "openapi-generator",
+        "openapi",
+        "php",
+        "sdk",
+        "rest",
+        "api"
+    ],
+    "homepage": "https://openapi-generator.tech",
+    "license": "unlicense",
+    "authors": [
+        {
+            "name": "OpenAPI",
+            "homepage": "https://openapi-generator.tech"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^1.7 || ^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0 || ^9.0",
+        "friendsofphp/php-cs-fixer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": { "Doslano\\" : "lib/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Doslano\\Test\\" : "test/" }
+    }
+}
