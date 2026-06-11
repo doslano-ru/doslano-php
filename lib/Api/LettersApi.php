@@ -142,7 +142,7 @@ class LettersApi
      *
      * @throws \Doslano\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Doslano\Model\Letter|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem
+     * @return \Doslano\Model\Letter|\Doslano\Model\DryRunResult|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem
      */
     public function createLetter($create_letter_request, $idempotency_key = null, string $contentType = self::contentTypes['createLetter'][0])
     {
@@ -161,7 +161,7 @@ class LettersApi
      *
      * @throws \Doslano\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Doslano\Model\Letter|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Doslano\Model\Letter|\Doslano\Model\DryRunResult|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem|\Doslano\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function createLetterWithHttpInfo($create_letter_request, $idempotency_key = null, string $contentType = self::contentTypes['createLetter'][0])
     {
@@ -215,6 +215,33 @@ class LettersApi
 
                     return [
                         ObjectSerializer::deserialize($content, '\Doslano\Model\Letter', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 200:
+                    if ('\Doslano\Model\DryRunResult' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\Doslano\Model\DryRunResult' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Doslano\Model\DryRunResult', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
@@ -368,7 +395,7 @@ class LettersApi
                 );
             }
 
-            $returnType = '\Doslano\Model\Letter';
+            $returnType = '\Doslano\Model\DryRunResult';
             if ($returnType === '\SplFileObject') {
                 $content = $response->getBody(); //stream goes to serializer
             } else {
@@ -402,6 +429,14 @@ class LettersApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Doslano\Model\Letter',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Doslano\Model\DryRunResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -487,7 +522,7 @@ class LettersApi
      */
     public function createLetterAsyncWithHttpInfo($create_letter_request, $idempotency_key = null, string $contentType = self::contentTypes['createLetter'][0])
     {
-        $returnType = '\Doslano\Model\Letter';
+        $returnType = '\Doslano\Model\DryRunResult';
         $request = $this->createLetterRequest($create_letter_request, $idempotency_key, $contentType);
 
         return $this->client

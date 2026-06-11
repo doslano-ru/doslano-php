@@ -1,6 +1,6 @@
 <?php
 /**
- * CreateLetterRequestTest
+ * DryRunResultPricingTest
  *
  * PHP version 7.4
  *
@@ -31,15 +31,15 @@ namespace Doslano\Test\Model;
 use PHPUnit\Framework\TestCase;
 
 /**
- * CreateLetterRequestTest Class Doc Comment
+ * DryRunResultPricingTest Class Doc Comment
  *
  * @category    Class
- * @description CreateLetterRequest
+ * @description Расчёт к списанию при реальной отправке этого запроса.
  * @package     Doslano
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class CreateLetterRequestTest extends TestCase
+class DryRunResultPricingTest extends TestCase
 {
 
     /**
@@ -71,90 +71,45 @@ class CreateLetterRequestTest extends TestCase
     }
 
     /**
-     * Test "CreateLetterRequest"
+     * Test "DryRunResultPricing"
      */
-    public function testCreateLetterRequest()
+    public function testDryRunResultPricing()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "sender"
+     * Test attribute "subtotal_minor"
      */
-    public function testPropertySender()
+    public function testPropertySubtotalMinor()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "recipients"
+     * Test attribute "total_minor"
      */
-    public function testPropertyRecipients()
+    public function testPropertyTotalMinor()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "content"
+     * Test attribute "currency"
      */
-    public function testPropertyContent()
+    public function testPropertyCurrency()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "letter_class"
+     * Test attribute "promo"
      */
-    public function testPropertyLetterClass()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "promo_code"
-     */
-    public function testPropertyPromoCode()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "on_promo_invalid"
-     */
-    public function testPropertyOnPromoInvalid()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "on_insufficient_funds"
-     */
-    public function testPropertyOnInsufficientFunds()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "dry_run"
-     */
-    public function testPropertyDryRun()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "callback_url"
-     */
-    public function testPropertyCallbackUrl()
+    public function testPropertyPromo()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

@@ -64,6 +64,7 @@ class CreateLetterRequest implements ModelInterface, ArrayAccess, \JsonSerializa
         'promo_code' => 'string',
         'on_promo_invalid' => 'string',
         'on_insufficient_funds' => 'string',
+        'dry_run' => 'bool',
         'callback_url' => 'string'
     ];
 
@@ -82,6 +83,7 @@ class CreateLetterRequest implements ModelInterface, ArrayAccess, \JsonSerializa
         'promo_code' => null,
         'on_promo_invalid' => null,
         'on_insufficient_funds' => null,
+        'dry_run' => null,
         'callback_url' => 'uri'
     ];
 
@@ -98,6 +100,7 @@ class CreateLetterRequest implements ModelInterface, ArrayAccess, \JsonSerializa
         'promo_code' => false,
         'on_promo_invalid' => false,
         'on_insufficient_funds' => false,
+        'dry_run' => false,
         'callback_url' => false
     ];
 
@@ -194,6 +197,7 @@ class CreateLetterRequest implements ModelInterface, ArrayAccess, \JsonSerializa
         'promo_code' => 'promo_code',
         'on_promo_invalid' => 'on_promo_invalid',
         'on_insufficient_funds' => 'on_insufficient_funds',
+        'dry_run' => 'dry_run',
         'callback_url' => 'callback_url'
     ];
 
@@ -210,6 +214,7 @@ class CreateLetterRequest implements ModelInterface, ArrayAccess, \JsonSerializa
         'promo_code' => 'setPromoCode',
         'on_promo_invalid' => 'setOnPromoInvalid',
         'on_insufficient_funds' => 'setOnInsufficientFunds',
+        'dry_run' => 'setDryRun',
         'callback_url' => 'setCallbackUrl'
     ];
 
@@ -226,6 +231,7 @@ class CreateLetterRequest implements ModelInterface, ArrayAccess, \JsonSerializa
         'promo_code' => 'getPromoCode',
         'on_promo_invalid' => 'getOnPromoInvalid',
         'on_insufficient_funds' => 'getOnInsufficientFunds',
+        'dry_run' => 'getDryRun',
         'callback_url' => 'getCallbackUrl'
     ];
 
@@ -323,6 +329,7 @@ class CreateLetterRequest implements ModelInterface, ArrayAccess, \JsonSerializa
         $this->setIfExists('promo_code', $data ?? [], null);
         $this->setIfExists('on_promo_invalid', $data ?? [], 'ignore');
         $this->setIfExists('on_insufficient_funds', $data ?? [], 'reject');
+        $this->setIfExists('dry_run', $data ?? [], false);
         $this->setIfExists('callback_url', $data ?? [], null);
     }
 
@@ -612,6 +619,33 @@ class CreateLetterRequest implements ModelInterface, ArrayAccess, \JsonSerializa
             );
         }
         $this->container['on_insufficient_funds'] = $on_insufficient_funds;
+
+        return $this;
+    }
+
+    /**
+     * Gets dry_run
+     *
+     * @return bool|null
+     */
+    public function getDryRun()
+    {
+        return $this->container['dry_run'];
+    }
+
+    /**
+     * Sets dry_run
+     *
+     * @param bool|null $dry_run Пробный прогон: запрос проходит ПОЛНУЮ реальную валидацию (ключ, scope, IP, файлы, адреса получателей, промокод) и возвращает расчёт цены — но письмо в итоге не создаётся и средства не списываются. Ответ — `200` со схемой `DryRunResult` (вместо `201`/`Letter`). Ошибки валидации возвращаются теми же кодами, что и при реальной отправке (400/422) — это честный тест интеграции. `Idempotency-Key` при `dry_run` игнорируется; `callback_url` не регистрируется; баланс НЕ проверяется (тестируйте хоть с нулевым балансом — сумма к списанию будет в `pricing.total_minor`).
+     *
+     * @return self
+     */
+    public function setDryRun($dry_run)
+    {
+        if (is_null($dry_run)) {
+            throw new \InvalidArgumentException('non-nullable dry_run cannot be null');
+        }
+        $this->container['dry_run'] = $dry_run;
 
         return $this;
     }

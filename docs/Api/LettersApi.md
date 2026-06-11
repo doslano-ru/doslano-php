@@ -13,7 +13,7 @@ All URIs are relative to https://integration.doslano.ru, except if the operation
 ## `createLetter()`
 
 ```php
-createLetter($create_letter_request, $idempotency_key): \Doslano\Model\Letter
+createLetter($create_letter_request, $idempotency_key): \Doslano\Model\DryRunResult
 ```
 
 Отправить письмо
@@ -57,7 +57,7 @@ try {
 
 ### Return type
 
-[**\Doslano\Model\Letter**](../Model/Letter.md)
+[**\Doslano\Model\DryRunResult**](../Model/DryRunResult.md)
 
 ### Authorization
 

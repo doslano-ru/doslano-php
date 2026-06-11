@@ -9,6 +9,8 @@ docs/Api/DefaultApi.md
 docs/Api/LettersApi.md
 docs/Model/Balance.md
 docs/Model/CreateLetterRequest.md
+docs/Model/DryRunResult.md
+docs/Model/DryRunResultPricing.md
 docs/Model/FileSource.md
 docs/Model/Letter.md
 docs/Model/LetterClass.md
@@ -38,6 +40,8 @@ lib/Configuration.php
 lib/HeaderSelector.php
 lib/Model/Balance.php
 lib/Model/CreateLetterRequest.php
+lib/Model/DryRunResult.php
+lib/Model/DryRunResultPricing.php
 lib/Model/FileSource.php
 lib/Model/Letter.php
 lib/Model/LetterClass.php
@@ -66,6 +70,8 @@ test/Api/DefaultApiTest.php
 test/Api/LettersApiTest.php
 test/Model/BalanceTest.php
 test/Model/CreateLetterRequestTest.php
+test/Model/DryRunResultPricingTest.php
+test/Model/DryRunResultTest.php
 test/Model/FileSourceTest.php
 test/Model/LetterClassTest.php
 test/Model/LetterContentTest.php

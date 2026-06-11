@@ -1,6 +1,6 @@
 <?php
 /**
- * CreateLetterRequestTest
+ * DryRunResultTest
  *
  * PHP version 7.4
  *
@@ -31,15 +31,15 @@ namespace Doslano\Test\Model;
 use PHPUnit\Framework\TestCase;
 
 /**
- * CreateLetterRequestTest Class Doc Comment
+ * DryRunResultTest Class Doc Comment
  *
  * @category    Class
- * @description CreateLetterRequest
+ * @description Результат пробного прогона (&#x60;dry_run: true&#x60;): запрос полностью валиден. Письмо НЕ создано, средства НЕ списаны.
  * @package     Doslano
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class CreateLetterRequestTest extends TestCase
+class DryRunResultTest extends TestCase
 {
 
     /**
@@ -71,72 +71,9 @@ class CreateLetterRequestTest extends TestCase
     }
 
     /**
-     * Test "CreateLetterRequest"
+     * Test "DryRunResult"
      */
-    public function testCreateLetterRequest()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "sender"
-     */
-    public function testPropertySender()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "recipients"
-     */
-    public function testPropertyRecipients()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "content"
-     */
-    public function testPropertyContent()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "letter_class"
-     */
-    public function testPropertyLetterClass()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "promo_code"
-     */
-    public function testPropertyPromoCode()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "on_promo_invalid"
-     */
-    public function testPropertyOnPromoInvalid()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "on_insufficient_funds"
-     */
-    public function testPropertyOnInsufficientFunds()
+    public function testDryRunResult()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -152,9 +89,27 @@ class CreateLetterRequestTest extends TestCase
     }
 
     /**
-     * Test attribute "callback_url"
+     * Test attribute "valid"
      */
-    public function testPropertyCallbackUrl()
+    public function testPropertyValid()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "recipients_count"
+     */
+    public function testPropertyRecipientsCount()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "pricing"
+     */
+    public function testPropertyPricing()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
