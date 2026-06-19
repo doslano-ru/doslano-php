@@ -309,8 +309,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
             $invalidProperties[] = "invalid value for 'name', the character length must be smaller than or equal to 256.";
         }
 
-        if (!is_null($this->container['inn']) && !preg_match("/^[0-9]{10,12}$/", $this->container['inn'])) {
-            $invalidProperties[] = "invalid value for 'inn', must be conform to the pattern /^[0-9]{10,12}$/.";
+        if (!is_null($this->container['inn']) && !preg_match("/^[0-9]{10}$/", $this->container['inn'])) {
+            $invalidProperties[] = "invalid value for 'inn', must be conform to the pattern /^[0-9]{10}$/.";
         }
 
         return $invalidProperties;
@@ -426,7 +426,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets inn
      *
-     * @param string|null $inn inn
+     * @param string|null $inn ИНН (10 цифр).
      *
      * @return self
      */
@@ -436,8 +436,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable inn cannot be null');
         }
 
-        if ((!preg_match("/^[0-9]{10,12}$/", ObjectSerializer::toString($inn)))) {
-            throw new \InvalidArgumentException("invalid value for \$inn when calling RecipientInput., must conform to the pattern /^[0-9]{10,12}$/.");
+        if ((!preg_match("/^[0-9]{10}$/", ObjectSerializer::toString($inn)))) {
+            throw new \InvalidArgumentException("invalid value for \$inn when calling RecipientInput., must conform to the pattern /^[0-9]{10}$/.");
         }
 
         $this->container['inn'] = $inn;
