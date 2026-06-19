@@ -62,7 +62,8 @@ class WebhookEventData implements ModelInterface, ArrayAccess, \JsonSerializable
         'status' => 'string',
         'shipment_number' => 'string',
         'tracking_number' => 'string',
-        'error' => 'string'
+        'error' => 'string',
+        'amount_minor' => 'int'
     ];
 
     /**
@@ -78,7 +79,8 @@ class WebhookEventData implements ModelInterface, ArrayAccess, \JsonSerializable
         'status' => null,
         'shipment_number' => null,
         'tracking_number' => null,
-        'error' => null
+        'error' => null,
+        'amount_minor' => null
     ];
 
     /**
@@ -92,7 +94,8 @@ class WebhookEventData implements ModelInterface, ArrayAccess, \JsonSerializable
         'status' => false,
         'shipment_number' => false,
         'tracking_number' => false,
-        'error' => false
+        'error' => false,
+        'amount_minor' => false
     ];
 
     /**
@@ -186,7 +189,8 @@ class WebhookEventData implements ModelInterface, ArrayAccess, \JsonSerializable
         'status' => 'status',
         'shipment_number' => 'shipment_number',
         'tracking_number' => 'tracking_number',
-        'error' => 'error'
+        'error' => 'error',
+        'amount_minor' => 'amount_minor'
     ];
 
     /**
@@ -200,7 +204,8 @@ class WebhookEventData implements ModelInterface, ArrayAccess, \JsonSerializable
         'status' => 'setStatus',
         'shipment_number' => 'setShipmentNumber',
         'tracking_number' => 'setTrackingNumber',
-        'error' => 'setError'
+        'error' => 'setError',
+        'amount_minor' => 'setAmountMinor'
     ];
 
     /**
@@ -214,7 +219,8 @@ class WebhookEventData implements ModelInterface, ArrayAccess, \JsonSerializable
         'status' => 'getStatus',
         'shipment_number' => 'getShipmentNumber',
         'tracking_number' => 'getTrackingNumber',
-        'error' => 'getError'
+        'error' => 'getError',
+        'amount_minor' => 'getAmountMinor'
     ];
 
     /**
@@ -280,6 +286,7 @@ class WebhookEventData implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('shipment_number', $data ?? [], null);
         $this->setIfExists('tracking_number', $data ?? [], null);
         $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('amount_minor', $data ?? [], null);
     }
 
     /**
@@ -488,6 +495,33 @@ class WebhookEventData implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable error cannot be null');
         }
         $this->container['error'] = $error;
+
+        return $this;
+    }
+
+    /**
+     * Gets amount_minor
+     *
+     * @return int|null
+     */
+    public function getAmountMinor()
+    {
+        return $this->container['amount_minor'];
+    }
+
+    /**
+     * Sets amount_minor
+     *
+     * @param int|null $amount_minor Фактически списанная стоимость отправления ЭТОМУ получателю, в копейках (доля дисконтированного тотала письма с учётом промокода). Присутствует только в `recipient.sent` — отправление реально ушло и оплачено. В `recipient.failed` отсутствует: при провале сумма возвращается на баланс.
+     *
+     * @return self
+     */
+    public function setAmountMinor($amount_minor)
+    {
+        if (is_null($amount_minor)) {
+            throw new \InvalidArgumentException('non-nullable amount_minor cannot be null');
+        }
+        $this->container['amount_minor'] = $amount_minor;
 
         return $this;
     }

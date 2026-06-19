@@ -114,4 +114,13 @@ class RecipientInputTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "resolve_address_by_inn"
+     */
+    public function testPropertyResolveAddressByInn()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }

@@ -60,7 +60,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => 'string',
         'address' => 'string',
         'party_type' => '\Doslano\Model\PartyType',
-        'inn' => 'string'
+        'inn' => 'string',
+        'resolve_address_by_inn' => 'bool'
     ];
 
     /**
@@ -74,7 +75,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => null,
         'address' => null,
         'party_type' => null,
-        'inn' => null
+        'inn' => null,
+        'resolve_address_by_inn' => null
     ];
 
     /**
@@ -86,7 +88,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => false,
         'address' => false,
         'party_type' => false,
-        'inn' => false
+        'inn' => false,
+        'resolve_address_by_inn' => false
     ];
 
     /**
@@ -178,7 +181,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => 'name',
         'address' => 'address',
         'party_type' => 'party_type',
-        'inn' => 'inn'
+        'inn' => 'inn',
+        'resolve_address_by_inn' => 'resolve_address_by_inn'
     ];
 
     /**
@@ -190,7 +194,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => 'setName',
         'address' => 'setAddress',
         'party_type' => 'setPartyType',
-        'inn' => 'setInn'
+        'inn' => 'setInn',
+        'resolve_address_by_inn' => 'setResolveAddressByInn'
     ];
 
     /**
@@ -202,7 +207,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => 'getName',
         'address' => 'getAddress',
         'party_type' => 'getPartyType',
-        'inn' => 'getInn'
+        'inn' => 'getInn',
+        'resolve_address_by_inn' => 'getResolveAddressByInn'
     ];
 
     /**
@@ -266,6 +272,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('address', $data ?? [], null);
         $this->setIfExists('party_type', $data ?? [], null);
         $this->setIfExists('inn', $data ?? [], null);
+        $this->setIfExists('resolve_address_by_inn', $data ?? [], false);
     }
 
     /**
@@ -298,9 +305,14 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['name'] === null) {
             $invalidProperties[] = "'name' can't be null";
         }
-        if ($this->container['address'] === null) {
-            $invalidProperties[] = "'address' can't be null";
+        if ((mb_strlen($this->container['name']) > 256)) {
+            $invalidProperties[] = "invalid value for 'name', the character length must be smaller than or equal to 256.";
         }
+
+        if (!is_null($this->container['inn']) && !preg_match("/^[0-9]{10,12}$/", $this->container['inn'])) {
+            $invalidProperties[] = "invalid value for 'inn', must be conform to the pattern /^[0-9]{10,12}$/.";
+        }
+
         return $invalidProperties;
     }
 
@@ -329,7 +341,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets name
      *
-     * @param string $name ФИО или название получателя.
+     * @param string $name ФИО или название получателя. При resolve_address_by_inn=true ПЕРЕЗАПИСЫВАЕТСЯ наименованием из ЕГРЮЛ.
      *
      * @return self
      */
@@ -338,6 +350,10 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($name)) {
             throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
+        if ((mb_strlen($name) > 256)) {
+            throw new \InvalidArgumentException('invalid length for $name when calling RecipientInput., must be smaller than or equal to 256.');
+        }
+
         $this->container['name'] = $name;
 
         return $this;
@@ -346,7 +362,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets address
      *
-     * @return string
+     * @return string|null
      */
     public function getAddress()
     {
@@ -356,7 +372,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets address
      *
-     * @param string $address Адрес получателя (строкой; нормализуется на нашей стороне).
+     * @param string|null $address Адрес получателя (строкой; нормализуется на нашей стороне). Можно опустить при resolve_address_by_inn=true.
      *
      * @return self
      */
@@ -419,7 +435,39 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($inn)) {
             throw new \InvalidArgumentException('non-nullable inn cannot be null');
         }
+
+        if ((!preg_match("/^[0-9]{10,12}$/", ObjectSerializer::toString($inn)))) {
+            throw new \InvalidArgumentException("invalid value for \$inn when calling RecipientInput., must conform to the pattern /^[0-9]{10,12}$/.");
+        }
+
         $this->container['inn'] = $inn;
+
+        return $this;
+    }
+
+    /**
+     * Gets resolve_address_by_inn
+     *
+     * @return bool|null
+     */
+    public function getResolveAddressByInn()
+    {
+        return $this->container['resolve_address_by_inn'];
+    }
+
+    /**
+     * Sets resolve_address_by_inn
+     *
+     * @param bool|null $resolve_address_by_inn Авто-резолв адреса по ИНН из ЕГРЮЛ. Работает только для party_type=organization с заданным inn: адрес и наименование берутся из реестра (DaData findById/party, головная организация), address можно не передавать. Если резолв не удался и address не передан — 422 recipient_address_unresolved; флаг без inn или не для organization — 422 recipient_resolve_requires_inn. Если передан и address — он fallback при неудаче резолва.
+     *
+     * @return self
+     */
+    public function setResolveAddressByInn($resolve_address_by_inn)
+    {
+        if (is_null($resolve_address_by_inn)) {
+            throw new \InvalidArgumentException('non-nullable resolve_address_by_inn cannot be null');
+        }
+        $this->container['resolve_address_by_inn'] = $resolve_address_by_inn;
 
         return $this;
     }

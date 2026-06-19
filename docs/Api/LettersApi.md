@@ -37,7 +37,7 @@ $apiInstance = new Doslano\Api\LettersApi(
     new GuzzleHttp\Client(),
     $config
 );
-$create_letter_request = new \Doslano\Model\CreateLetterRequest(); // \Doslano\Model\CreateLetterRequest
+$create_letter_request = {"sender":{"name":"ООО «Мой Бизнес»","party_type":"organization","inn":"7710000001","address":"101000, г Москва, Мясницкая ул, д 10","email":"claims@mybiz.example"},"recipients":[{"name":"ООО «Ромашка»","party_type":"organization","inn":"7707083893","resolve_address_by_inn":true},{"name":"Иванов Иван Иванович","party_type":"individual","address":"190000, г Санкт-Петербург, Невский пр-кт, д 1, кв 5"}],"content":{"main_file":{"url":"https://files.example.com/claim.pdf","filename":"Претензия.pdf"}}}; // \Doslano\Model\CreateLetterRequest
 $idempotency_key = 'idempotency_key_example'; // string | Ключ идемпотентности. Повтор с тем же ключом в течение TTL вернёт исходный результат, не создавая письмо повторно.
 
 try {

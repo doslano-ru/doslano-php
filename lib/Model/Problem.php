@@ -439,7 +439,7 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets code
      *
-     * @param string|null $code Машиночитаемый код ошибки (напр. `insufficient_funds`, `validation_failed`, `forbidden_scope`).
+     * @param string|null $code Машиночитаемый код ошибки (напр. `insufficient_funds`, `validation_failed`, `address_validation_failed`, `forbidden_scope`).
      *
      * @return self
      */

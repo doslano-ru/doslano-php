@@ -305,9 +305,17 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['name'] === null) {
             $invalidProperties[] = "'name' can't be null";
         }
+        if ((mb_strlen($this->container['name']) > 256)) {
+            $invalidProperties[] = "invalid value for 'name', the character length must be smaller than or equal to 256.";
+        }
+
         if ($this->container['address'] === null) {
             $invalidProperties[] = "'address' can't be null";
         }
+        if (!is_null($this->container['inn']) && !preg_match("/^[0-9]{10,12}$/", $this->container['inn'])) {
+            $invalidProperties[] = "invalid value for 'inn', must be conform to the pattern /^[0-9]{10,12}$/.";
+        }
+
         return $invalidProperties;
     }
 
@@ -345,6 +353,10 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($name)) {
             throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
+        if ((mb_strlen($name) > 256)) {
+            throw new \InvalidArgumentException('invalid length for $name when calling SenderInput., must be smaller than or equal to 256.');
+        }
+
         $this->container['name'] = $name;
 
         return $this;
@@ -453,6 +465,11 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($inn)) {
             throw new \InvalidArgumentException('non-nullable inn cannot be null');
         }
+
+        if ((!preg_match("/^[0-9]{10,12}$/", ObjectSerializer::toString($inn)))) {
+            throw new \InvalidArgumentException("invalid value for \$inn when calling SenderInput., must conform to the pattern /^[0-9]{10,12}$/.");
+        }
+
         $this->container['inn'] = $inn;
 
         return $this;

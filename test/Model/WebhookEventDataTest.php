@@ -132,4 +132,13 @@ class WebhookEventDataTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "amount_minor"
+     */
+    public function testPropertyAmountMinor()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }
