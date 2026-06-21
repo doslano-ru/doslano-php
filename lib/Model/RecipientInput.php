@@ -61,6 +61,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'address' => 'string',
         'party_type' => '\Doslano\Model\PartyType',
         'inn' => 'string',
+        'email' => 'string',
         'resolve_address_by_inn' => 'bool'
     ];
 
@@ -76,6 +77,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'address' => null,
         'party_type' => null,
         'inn' => null,
+        'email' => 'email',
         'resolve_address_by_inn' => null
     ];
 
@@ -89,6 +91,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'address' => false,
         'party_type' => false,
         'inn' => false,
+        'email' => false,
         'resolve_address_by_inn' => false
     ];
 
@@ -182,6 +185,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'address' => 'address',
         'party_type' => 'party_type',
         'inn' => 'inn',
+        'email' => 'email',
         'resolve_address_by_inn' => 'resolve_address_by_inn'
     ];
 
@@ -195,6 +199,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'address' => 'setAddress',
         'party_type' => 'setPartyType',
         'inn' => 'setInn',
+        'email' => 'setEmail',
         'resolve_address_by_inn' => 'setResolveAddressByInn'
     ];
 
@@ -208,6 +213,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'address' => 'getAddress',
         'party_type' => 'getPartyType',
         'inn' => 'getInn',
+        'email' => 'getEmail',
         'resolve_address_by_inn' => 'getResolveAddressByInn'
     ];
 
@@ -272,6 +278,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('address', $data ?? [], null);
         $this->setIfExists('party_type', $data ?? [], null);
         $this->setIfExists('inn', $data ?? [], null);
+        $this->setIfExists('email', $data ?? [], null);
         $this->setIfExists('resolve_address_by_inn', $data ?? [], false);
     }
 
@@ -311,6 +318,10 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
 
         if (!is_null($this->container['inn']) && !preg_match("/^[0-9]{10}$/", $this->container['inn'])) {
             $invalidProperties[] = "invalid value for 'inn', must be conform to the pattern /^[0-9]{10}$/.";
+        }
+
+        if (!is_null($this->container['email']) && (mb_strlen($this->container['email']) > 254)) {
+            $invalidProperties[] = "invalid value for 'email', the character length must be smaller than or equal to 254.";
         }
 
         return $invalidProperties;
@@ -441,6 +452,37 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         }
 
         $this->container['inn'] = $inn;
+
+        return $this;
+    }
+
+    /**
+     * Gets email
+     *
+     * @return string|null
+     */
+    public function getEmail()
+    {
+        return $this->container['email'];
+    }
+
+    /**
+     * Sets email
+     *
+     * @param string|null $email Email получателя для уведомления-копии (опционально). После отправки письма получателю на этот адрес приходит письмо со ссылкой на электронную версию (страница /receive). Пустой/опущен — уведомление не шлётся; адрес указывает отправитель и отвечает за корректность.
+     *
+     * @return self
+     */
+    public function setEmail($email)
+    {
+        if (is_null($email)) {
+            throw new \InvalidArgumentException('non-nullable email cannot be null');
+        }
+        if ((mb_strlen($email) > 254)) {
+            throw new \InvalidArgumentException('invalid length for $email when calling RecipientInput., must be smaller than or equal to 254.');
+        }
+
+        $this->container['email'] = $email;
 
         return $this;
     }

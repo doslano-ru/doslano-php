@@ -116,6 +116,15 @@ class RecipientInputTest extends TestCase
     }
 
     /**
+     * Test attribute "email"
+     */
+    public function testPropertyEmail()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "resolve_address_by_inn"
      */
     public function testPropertyResolveAddressByInn()
