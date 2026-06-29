@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  * SenderInputTest Class Doc Comment
  *
  * @category    Class
- * @description SenderInput
+ * @description Отправитель. Любое поле можно опустить — оно берётся из профиля аккаунта (ЛК). Например, передайте только &#x60;email&#x60;, чтобы переопределить почту плательщика для кассового чека, а имя/адрес оставить из профиля. Если &#x60;sender&#x60; не передан целиком — весь отправитель берётся из профиля.
  * @package     Doslano
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech

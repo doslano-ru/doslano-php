@@ -35,6 +35,7 @@ use \Doslano\ObjectSerializer;
  * SenderInput Class Doc Comment
  *
  * @category Class
+ * @description Отправитель. Любое поле можно опустить — оно берётся из профиля аккаунта (ЛК). Например, передайте только &#x60;email&#x60;, чтобы переопределить почту плательщика для кассового чека, а имя/адрес оставить из профиля. Если &#x60;sender&#x60; не передан целиком — весь отправитель берётся из профиля.
  * @package  Doslano
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -302,16 +303,10 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
-        if ($this->container['name'] === null) {
-            $invalidProperties[] = "'name' can't be null";
-        }
-        if ((mb_strlen($this->container['name']) > 256)) {
+        if (!is_null($this->container['name']) && (mb_strlen($this->container['name']) > 256)) {
             $invalidProperties[] = "invalid value for 'name', the character length must be smaller than or equal to 256.";
         }
 
-        if ($this->container['address'] === null) {
-            $invalidProperties[] = "'address' can't be null";
-        }
         if (!is_null($this->container['inn']) && !preg_match("/^[0-9]{10,12}$/", $this->container['inn'])) {
             $invalidProperties[] = "invalid value for 'inn', must be conform to the pattern /^[0-9]{10,12}$/.";
         }
@@ -334,7 +329,7 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets name
      *
-     * @return string
+     * @return string|null
      */
     public function getName()
     {
@@ -344,7 +339,7 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets name
      *
-     * @param string $name ФИО или название отправителя.
+     * @param string|null $name ФИО или название отправителя. Не указано — из профиля ЛК.
      *
      * @return self
      */
@@ -365,7 +360,7 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets address
      *
-     * @return string
+     * @return string|null
      */
     public function getAddress()
     {
@@ -375,7 +370,7 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets address
      *
-     * @param string $address Адрес отправителя (строкой; нормализуется на нашей стороне).
+     * @param string|null $address Адрес отправителя (строкой; нормализуется). Не указан — из профиля ЛК.
      *
      * @return self
      */
@@ -402,7 +397,7 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets email
      *
-     * @param string|null $email email
+     * @param string|null $email Email отправителя (плательщика) для кассового чека. Не указан — из профиля ЛК.
      *
      * @return self
      */
@@ -456,7 +451,7 @@ class SenderInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets inn
      *
-     * @param string|null $inn ИНН (для юр. лиц/ИП).
+     * @param string|null $inn ИНН (для юр. лиц/ИП). Не указан — из профиля ЛК.
      *
      * @return self
      */
