@@ -94,6 +94,8 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *BalanceApi* | [**getBalance**](docs/Api/BalanceApi.md#getbalance) | **GET** /v1/balance | Баланс аккаунта
 *LettersApi* | [**createLetter**](docs/Api/LettersApi.md#createletter) | **POST** /v1/letters | Отправить письмо
+*LettersApi* | [**downloadRecipientInventoryPdf**](docs/Api/LettersApi.md#downloadrecipientinventorypdf) | **GET** /v1/letters/{id}/recipients/{recipient_id}/inventory.pdf | PDF описи вложения получателя
+*LettersApi* | [**downloadRecipientReceiptPdf**](docs/Api/LettersApi.md#downloadrecipientreceiptpdf) | **GET** /v1/letters/{id}/recipients/{recipient_id}/receipt.pdf | PDF фискального чека получателя
 *LettersApi* | [**getLetter**](docs/Api/LettersApi.md#getletter) | **GET** /v1/letters/{id} | Статус письма
 *LettersApi* | [**getRecipientTracking**](docs/Api/LettersApi.md#getrecipienttracking) | **GET** /v1/letters/{id}/recipients/{recipient_id}/tracking | Трек-события получателя
 *LettersApi* | [**listLetters**](docs/Api/LettersApi.md#listletters) | **GET** /v1/letters | Список писем

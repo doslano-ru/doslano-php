@@ -84,6 +84,30 @@ class LettersApiTest extends TestCase
     }
 
     /**
+     * Test case for downloadRecipientInventoryPdf
+     *
+     * PDF описи вложения получателя.
+     *
+     */
+    public function testDownloadRecipientInventoryPdf()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for downloadRecipientReceiptPdf
+     *
+     * PDF фискального чека получателя.
+     *
+     */
+    public function testDownloadRecipientReceiptPdf()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for getLetter
      *
      * Статус письма.

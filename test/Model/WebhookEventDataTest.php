@@ -141,4 +141,31 @@ class WebhookEventDataTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "receipt_pdf"
+     */
+    public function testPropertyReceiptPdf()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "receipt_url"
+     */
+    public function testPropertyReceiptUrl()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "inventory_pdf"
+     */
+    public function testPropertyInventoryPdf()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }

@@ -5,6 +5,8 @@ All URIs are relative to https://integration.doslano.ru, except if the operation
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
 | [**createLetter()**](LettersApi.md#createLetter) | **POST** /v1/letters | Отправить письмо |
+| [**downloadRecipientInventoryPdf()**](LettersApi.md#downloadRecipientInventoryPdf) | **GET** /v1/letters/{id}/recipients/{recipient_id}/inventory.pdf | PDF описи вложения получателя |
+| [**downloadRecipientReceiptPdf()**](LettersApi.md#downloadRecipientReceiptPdf) | **GET** /v1/letters/{id}/recipients/{recipient_id}/receipt.pdf | PDF фискального чека получателя |
 | [**getLetter()**](LettersApi.md#getLetter) | **GET** /v1/letters/{id} | Статус письма |
 | [**getRecipientTracking()**](LettersApi.md#getRecipientTracking) | **GET** /v1/letters/{id}/recipients/{recipient_id}/tracking | Трек-события получателя |
 | [**listLetters()**](LettersApi.md#listLetters) | **GET** /v1/letters | Список писем |
@@ -67,6 +69,130 @@ try {
 
 - **Content-Type**: `application/json`
 - **Accept**: `application/json`, `application/problem+json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `downloadRecipientInventoryPdf()`
+
+```php
+downloadRecipientInventoryPdf($id, $recipient_id): \SplFileObject
+```
+
+PDF описи вложения получателя
+
+Скачать PDF описи вложения (форма 107, версия отправителя) по отправлению конкретному получателю. Доступен после передачи в Почту (получатель в статусе `sent`/`delivered`); иначе `404`. Требуется scope `letters:read`.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer (API key) authorization: apiKey
+$config = Doslano\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new Doslano\Api\LettersApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$id = 'id_example'; // string | Идентификатор письма.
+$recipient_id = 'recipient_id_example'; // string
+
+try {
+    $result = $apiInstance->downloadRecipientInventoryPdf($id, $recipient_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling LettersApi->downloadRecipientInventoryPdf: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **string**| Идентификатор письма. | |
+| **recipient_id** | **string**|  | |
+
+### Return type
+
+**\SplFileObject**
+
+### Authorization
+
+[apiKey](../../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/pdf`, `application/problem+json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `downloadRecipientReceiptPdf()`
+
+```php
+downloadRecipientReceiptPdf($id, $recipient_id): \SplFileObject
+```
+
+PDF фискального чека получателя
+
+Скачать PDF фискального чека (54-ФЗ) по отправлению конкретному получателю. Доступен, когда чек пробит и его PDF сохранён у нас (получатель в статусе `sent`/`delivered`); иначе `404`. Требуется scope `letters:read`.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer (API key) authorization: apiKey
+$config = Doslano\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new Doslano\Api\LettersApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$id = 'id_example'; // string | Идентификатор письма.
+$recipient_id = 'recipient_id_example'; // string
+
+try {
+    $result = $apiInstance->downloadRecipientReceiptPdf($id, $recipient_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling LettersApi->downloadRecipientReceiptPdf: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **string**| Идентификатор письма. | |
+| **recipient_id** | **string**|  | |
+
+### Return type
+
+**\SplFileObject**
+
+### Authorization
+
+[apiKey](../../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/pdf`, `application/problem+json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

@@ -64,7 +64,10 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment_number' => 'string',
         'tracking_number' => 'string',
         'price_minor' => 'int',
-        'error' => 'string'
+        'error' => 'string',
+        'receipt_pdf' => 'string',
+        'receipt_url' => 'string',
+        'inventory_pdf' => 'string'
     ];
 
     /**
@@ -82,7 +85,10 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment_number' => null,
         'tracking_number' => null,
         'price_minor' => 'int64',
-        'error' => null
+        'error' => null,
+        'receipt_pdf' => 'uri',
+        'receipt_url' => 'uri',
+        'inventory_pdf' => 'uri'
     ];
 
     /**
@@ -98,7 +104,10 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment_number' => false,
         'tracking_number' => false,
         'price_minor' => false,
-        'error' => false
+        'error' => false,
+        'receipt_pdf' => false,
+        'receipt_url' => false,
+        'inventory_pdf' => false
     ];
 
     /**
@@ -194,7 +203,10 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment_number' => 'shipment_number',
         'tracking_number' => 'tracking_number',
         'price_minor' => 'price_minor',
-        'error' => 'error'
+        'error' => 'error',
+        'receipt_pdf' => 'receipt_pdf',
+        'receipt_url' => 'receipt_url',
+        'inventory_pdf' => 'inventory_pdf'
     ];
 
     /**
@@ -210,7 +222,10 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment_number' => 'setShipmentNumber',
         'tracking_number' => 'setTrackingNumber',
         'price_minor' => 'setPriceMinor',
-        'error' => 'setError'
+        'error' => 'setError',
+        'receipt_pdf' => 'setReceiptPdf',
+        'receipt_url' => 'setReceiptUrl',
+        'inventory_pdf' => 'setInventoryPdf'
     ];
 
     /**
@@ -226,7 +241,10 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment_number' => 'getShipmentNumber',
         'tracking_number' => 'getTrackingNumber',
         'price_minor' => 'getPriceMinor',
-        'error' => 'getError'
+        'error' => 'getError',
+        'receipt_pdf' => 'getReceiptPdf',
+        'receipt_url' => 'getReceiptUrl',
+        'inventory_pdf' => 'getInventoryPdf'
     ];
 
     /**
@@ -294,6 +312,9 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('tracking_number', $data ?? [], null);
         $this->setIfExists('price_minor', $data ?? [], null);
         $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('receipt_pdf', $data ?? [], null);
+        $this->setIfExists('receipt_url', $data ?? [], null);
+        $this->setIfExists('inventory_pdf', $data ?? [], null);
     }
 
     /**
@@ -559,6 +580,87 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable error cannot be null');
         }
         $this->container['error'] = $error;
+
+        return $this;
+    }
+
+    /**
+     * Gets receipt_pdf
+     *
+     * @return string|null
+     */
+    public function getReceiptPdf()
+    {
+        return $this->container['receipt_pdf'];
+    }
+
+    /**
+     * Sets receipt_pdf
+     *
+     * @param string|null $receipt_pdf Ссылка на скачивание PDF фискального чека (54-ФЗ) этому получателю через наш API (см. `GET /v1/letters/{id}/recipients/{recipient_id}/receipt.pdf`). Присутствует, только когда чек пробит и его PDF сохранён у нас (получатель в статусе `sent`/`delivered`).
+     *
+     * @return self
+     */
+    public function setReceiptPdf($receipt_pdf)
+    {
+        if (is_null($receipt_pdf)) {
+            throw new \InvalidArgumentException('non-nullable receipt_pdf cannot be null');
+        }
+        $this->container['receipt_pdf'] = $receipt_pdf;
+
+        return $this;
+    }
+
+    /**
+     * Gets receipt_url
+     *
+     * @return string|null
+     */
+    public function getReceiptUrl()
+    {
+        return $this->container['receipt_url'];
+    }
+
+    /**
+     * Sets receipt_url
+     *
+     * @param string|null $receipt_url Ссылка на фискальный чек на сайте ОФД (1-ОФД). Присутствует, когда чек пробит (получатель `sent`/`delivered`). Может присутствовать и без `receipt_pdf` — когда наш PDF недоступен (link_only).
+     *
+     * @return self
+     */
+    public function setReceiptUrl($receipt_url)
+    {
+        if (is_null($receipt_url)) {
+            throw new \InvalidArgumentException('non-nullable receipt_url cannot be null');
+        }
+        $this->container['receipt_url'] = $receipt_url;
+
+        return $this;
+    }
+
+    /**
+     * Gets inventory_pdf
+     *
+     * @return string|null
+     */
+    public function getInventoryPdf()
+    {
+        return $this->container['inventory_pdf'];
+    }
+
+    /**
+     * Sets inventory_pdf
+     *
+     * @param string|null $inventory_pdf Ссылка на скачивание PDF описи вложения (форма 107, версия отправителя) через наш API (см. `GET /v1/letters/{id}/recipients/{recipient_id}/inventory.pdf`). Присутствует, когда опись сформирована и отправление передано в Почту (получатель в статусе `sent`/`delivered`).
+     *
+     * @return self
+     */
+    public function setInventoryPdf($inventory_pdf)
+    {
+        if (is_null($inventory_pdf)) {
+            throw new \InvalidArgumentException('non-nullable inventory_pdf cannot be null');
+        }
+        $this->container['inventory_pdf'] = $inventory_pdf;
 
         return $this;
     }
