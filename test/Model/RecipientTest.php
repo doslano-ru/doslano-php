@@ -152,6 +152,15 @@ class RecipientTest extends TestCase
     }
 
     /**
+     * Test attribute "address_truncation_applied"
+     */
+    public function testPropertyAddressTruncationApplied()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "receipt_pdf"
      */
     public function testPropertyReceiptPdf()

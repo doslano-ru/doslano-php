@@ -65,6 +65,7 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'tracking_number' => 'string',
         'price_minor' => 'int',
         'error' => 'string',
+        'address_truncation_applied' => 'bool',
         'receipt_pdf' => 'string',
         'receipt_url' => 'string',
         'inventory_pdf' => 'string'
@@ -86,6 +87,7 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'tracking_number' => null,
         'price_minor' => 'int64',
         'error' => null,
+        'address_truncation_applied' => null,
         'receipt_pdf' => 'uri',
         'receipt_url' => 'uri',
         'inventory_pdf' => 'uri'
@@ -105,6 +107,7 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'tracking_number' => false,
         'price_minor' => false,
         'error' => false,
+        'address_truncation_applied' => false,
         'receipt_pdf' => false,
         'receipt_url' => false,
         'inventory_pdf' => false
@@ -204,6 +207,7 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'tracking_number' => 'tracking_number',
         'price_minor' => 'price_minor',
         'error' => 'error',
+        'address_truncation_applied' => 'address_truncation_applied',
         'receipt_pdf' => 'receipt_pdf',
         'receipt_url' => 'receipt_url',
         'inventory_pdf' => 'inventory_pdf'
@@ -223,6 +227,7 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'tracking_number' => 'setTrackingNumber',
         'price_minor' => 'setPriceMinor',
         'error' => 'setError',
+        'address_truncation_applied' => 'setAddressTruncationApplied',
         'receipt_pdf' => 'setReceiptPdf',
         'receipt_url' => 'setReceiptUrl',
         'inventory_pdf' => 'setInventoryPdf'
@@ -242,6 +247,7 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         'tracking_number' => 'getTrackingNumber',
         'price_minor' => 'getPriceMinor',
         'error' => 'getError',
+        'address_truncation_applied' => 'getAddressTruncationApplied',
         'receipt_pdf' => 'getReceiptPdf',
         'receipt_url' => 'getReceiptUrl',
         'inventory_pdf' => 'getInventoryPdf'
@@ -312,6 +318,7 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('tracking_number', $data ?? [], null);
         $this->setIfExists('price_minor', $data ?? [], null);
         $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('address_truncation_applied', $data ?? [], null);
         $this->setIfExists('receipt_pdf', $data ?? [], null);
         $this->setIfExists('receipt_url', $data ?? [], null);
         $this->setIfExists('inventory_pdf', $data ?? [], null);
@@ -580,6 +587,33 @@ class Recipient implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable error cannot be null');
         }
         $this->container['error'] = $error;
+
+        return $this;
+    }
+
+    /**
+     * Gets address_truncation_applied
+     *
+     * @return bool|null
+     */
+    public function getAddressTruncationApplied()
+    {
+        return $this->container['address_truncation_applied'];
+    }
+
+    /**
+     * Sets address_truncation_applied
+     *
+     * @param bool|null $address_truncation_applied Письмо отправляется/отправлено на адрес, усечённый до номера дома (сработало согласие `allow_address_truncation`). Поле `address` содержит фактический адрес отправки. Отсутствие поля эквивалентно false.
+     *
+     * @return self
+     */
+    public function setAddressTruncationApplied($address_truncation_applied)
+    {
+        if (is_null($address_truncation_applied)) {
+            throw new \InvalidArgumentException('non-nullable address_truncation_applied cannot be null');
+        }
+        $this->container['address_truncation_applied'] = $address_truncation_applied;
 
         return $this;
     }

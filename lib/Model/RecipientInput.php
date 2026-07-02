@@ -62,7 +62,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'party_type' => '\Doslano\Model\PartyType',
         'inn' => 'string',
         'email' => 'string',
-        'resolve_address_by_inn' => 'bool'
+        'resolve_address_by_inn' => 'bool',
+        'allow_address_truncation' => 'bool'
     ];
 
     /**
@@ -78,7 +79,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'party_type' => null,
         'inn' => null,
         'email' => 'email',
-        'resolve_address_by_inn' => null
+        'resolve_address_by_inn' => null,
+        'allow_address_truncation' => null
     ];
 
     /**
@@ -92,7 +94,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'party_type' => false,
         'inn' => false,
         'email' => false,
-        'resolve_address_by_inn' => false
+        'resolve_address_by_inn' => false,
+        'allow_address_truncation' => false
     ];
 
     /**
@@ -186,7 +189,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'party_type' => 'party_type',
         'inn' => 'inn',
         'email' => 'email',
-        'resolve_address_by_inn' => 'resolve_address_by_inn'
+        'resolve_address_by_inn' => 'resolve_address_by_inn',
+        'allow_address_truncation' => 'allow_address_truncation'
     ];
 
     /**
@@ -200,7 +204,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'party_type' => 'setPartyType',
         'inn' => 'setInn',
         'email' => 'setEmail',
-        'resolve_address_by_inn' => 'setResolveAddressByInn'
+        'resolve_address_by_inn' => 'setResolveAddressByInn',
+        'allow_address_truncation' => 'setAllowAddressTruncation'
     ];
 
     /**
@@ -214,7 +219,8 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'party_type' => 'getPartyType',
         'inn' => 'getInn',
         'email' => 'getEmail',
-        'resolve_address_by_inn' => 'getResolveAddressByInn'
+        'resolve_address_by_inn' => 'getResolveAddressByInn',
+        'allow_address_truncation' => 'getAllowAddressTruncation'
     ];
 
     /**
@@ -280,6 +286,7 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('inn', $data ?? [], null);
         $this->setIfExists('email', $data ?? [], null);
         $this->setIfExists('resolve_address_by_inn', $data ?? [], false);
+        $this->setIfExists('allow_address_truncation', $data ?? [], false);
     }
 
     /**
@@ -510,6 +517,33 @@ class RecipientInput implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable resolve_address_by_inn cannot be null');
         }
         $this->container['resolve_address_by_inn'] = $resolve_address_by_inn;
+
+        return $this;
+    }
+
+    /**
+     * Gets allow_address_truncation
+     *
+     * @return bool|null
+     */
+    public function getAllowAddressTruncation()
+    {
+        return $this->container['allow_address_truncation'];
+    }
+
+    /**
+     * Sets allow_address_truncation
+     *
+     * @param bool|null $allow_address_truncation Согласие на усечение адреса до номера дома, если полный адрес не проходит в Почте России (ЕПС валидирует адреса по ГАР, где помещение/офис/комната часто не зарегистрированы). Усечённая форма готовится автоматически (только когда дом распознан ФИАС). Триггеры: провал валидации адреса Почтой — проверка не блокирует письмо, пока есть варианты (административная форма → муниципальная → усечённая до дома), — и ошибка сохранения отправления SHIPMENT_ERROR — варианты перебираются сразу, без повторных попыток отправки. (Ошибка регистрации EPS_61_INVALID_ADDRESS обрабатывается независимо существующим механизмом муниципального fallback-адреса, без усечения.) Письмо, ушедшее на усечённый адрес, помечается `address_truncation_applied: true` у получателя. Если не помог ни один вариант — стандартная ошибка (422 при создании либо `failed` + возврат средств).
+     *
+     * @return self
+     */
+    public function setAllowAddressTruncation($allow_address_truncation)
+    {
+        if (is_null($allow_address_truncation)) {
+            throw new \InvalidArgumentException('non-nullable allow_address_truncation cannot be null');
+        }
+        $this->container['allow_address_truncation'] = $allow_address_truncation;
 
         return $this;
     }

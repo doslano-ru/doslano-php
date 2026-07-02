@@ -132,4 +132,13 @@ class RecipientInputTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "allow_address_truncation"
+     */
+    public function testPropertyAllowAddressTruncation()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }
